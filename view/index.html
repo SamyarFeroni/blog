@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
+    <!-- Font Awesome cdn css -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="./index.css">
+    <title>login web</title>
+</head>
+<body>
+        <header>
+            <h2 class="logo"><span><ion-icon name="logo-nodejs"></ion-icon></span></h2>
+            <nav class="navigation">
+                <a href="index.html">Home</a>
+                <a href="about.html">About</a>
+                <a href="servisces.html">Servisces</a>
+                <a href="contact.html">Contact</a>
+                <button class="btnLogin-popup">Login</button>
+            </nav>
+        </header>
+        <div class="wrapaper">
+            <span class="icon-close">
+                <ion-icon name="close-outline"></ion-icon>
+            </span>
+            <div class="form-box login">
+                <h2>Login</h2>
+                <form action="/login" method="post" >
+                    <dir>
+                        <select name="typeuser" id="typeuser" class="typeuser">
+                            <option value="user" class="optionuser">blogger</option>
+                            <option value="admin" class="optionadmin">admin</option>
+                        </select>
+                    </dir>
+                    <div class="input-box">
+                        <span class="icon"><ion-icon name="person-circle-outline"></ion-icon></span>
+                        <input type="text" class="inputuser" id="inputuser" placeholder="Mandatory*"  required >
+                        <Label>Username</Label>
+                    </div>
+                    <div class="input-box">
+                        <span class="icon"><ion-icon name="lock-closed-outline"></ion-icon></span>
+                        <input type="password"  class="inputpassword" id="inputpassword" placeholder="Mandatory*" required >
+                        <Label>password</Label>
+                    </div>
+                    <div class="remember-forgot">
+                        <label><input type="checkbox" id="remember" name="remember">Remember me</label>
+                        <p><a class="Rest-link"></a></p>
+                        
+                    </div>
+                    <button type="submit" class="btn" id="btnlogin" value="login">Login</button>
+                    <div class="login-register">
+                        <p>Dont have a account?<a class="register-link"> Register</a></p>
+                    </div>
+                </form>
+            </div>
+            <div class="form-box register">
+                <h2>Registration</h2>
+                <form action="/register" method="post">
+                    <div class="input-box">
+                        <span class="icon"><ion-icon name="person-circle-outline"></ion-icon></span>
+                        <input type="text" required id="newFirstName" placeholder="Mandatory*">
+                        <Label>FirstName</Label>
+                    </div>
+                    <div class="input-box">
+                        <span class="icon"><ion-icon name="person-circle-outline"></ion-icon></span>
+                        <input type="text" required id="newLastName" placeholder="Mandatory*">
+                        <Label>LastName</Label>
+                    </div>
+                    <div class="input-box">
+                        <span class="icon"><ion-icon name="person-circle-outline"></ion-icon></span>
+                        <input type="text" required id="newusername" placeholder="Mandatory*">
+                        <Label>Username</Label>
+                    </div>
+                    <div class="input-box">
+                        <span class="icon"><ion-icon name="lock-closed-outline"></ion-icon></span>
+                        <input type="password" required id="newpassword"  placeholder="Mandatory*">
+                        <Label>password</Label>
+                    </div>
+                    <div class="input-box">
+                        <span class="icon"><ion-icon name="transgender-outline"></ion-icon></span>
+                        <input type="text" required id="newgender"  placeholder="Mandatory*">
+                        <!-- <option value="gender">Man</option>
+                        <option value="gender">Woman</option> -->
+                        <!-- <option value="gender">Custom</option> -->
+                        <Label>gender</Label>
+                    </div>
+                    <div class="input-box">
+                        <span class="icon"><ion-icon name="call-outline"></ion-icon></span>
+                        <input type="number" required id="newphonenumber"  placeholder="Mandatory*">
+                        <Label>PhoneNumber</Label>
+                    </div>
+                    <div class="remember-forgot">
+                        <label for="terms"><input type="checkbox" id="terms">I agree to the terms & conditions</label>
+                    </div>
+                    <button type="submit" class="btn" id="btnregister" disabled = 'true'>register</button>
+                    <div class="login-register">
+                        <p>Already have a account?<a class="login-link">Login</a></p>
+                    </div>
+                </form>
+            </div>
+            <div class="form-box Rest">
+                <h2>Rest Password</h2>
+                <form action="/Rest-password" method="post" >
+                    <div class="input-box">
+                        <span class="icon"><ion-icon name="person-circle-outline"></ion-icon></span>
+                        <input type="text" required class="inputuser" id="Restuser" placeholder="Mandatory*">
+                        <Label>Username</Label>
+                    </div>
+                    <div class="Restbtn">
+                    <button type="submit" class="btn" id="btnRestPassword" value="Rest-password">Rest password</button>
+                </div>
+                    <div class="login-Rest">
+                    <p><a class="loginRest">login page</a></p>
+                </div>
+                </form>
+            </div>
+            
+        </div>
+        <script src="main.js"></script>
+        <script src="server.js"></script>
+        <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+<script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+</body>
+</html>
