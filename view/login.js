@@ -1,29 +1,27 @@
-
-
-    const imageprofile = document.getElementById("imageProfile");
+    // const imageprofile = document.getElementById("imageProfile");
     const inputFile = document.getElementById("input-file")
+    const btnupload = document.getElementById("btnupload")
+    const token = localStorage.getItem('token')
+btnupload.addEventListener('click', async () => {
+    const file = inputFile.files[0];
+    if (file) {
+        const formData = new FormData();
+        formData.append('image', file);
 
-    inputFile.onchange = ()=>{
-    imageprofile.src = URL.createObjectURL(inputFile.files[0])
+        try {
+            const response = await fetch('/upload', {
+                method: 'POST',
+                headers:{
+                'Authorization': `Bearer ${token}`
+                }, 
+                body: formData
+            });
+            const data = await response.json();
+            console.log(data);
+        } catch (error) {
+            console.error(error);
+        }
+    } else {
+        console.log('No file selected.');
     }
-
-    console.log(inputFile);
-
-    // const uploadprofileImage = ()=>{
-    //     const fromData = new FormData()
-    //     fromData.append('profileImage', inputFile)
-
-    //     fetch('/upload', {
-    //         method: 'POST',
-    //         body: fromData
-    //     })
-    //     .then(response => response.json())
-    //     .then(data =>{
-    //         if(data.success){
-
-    //         }else{
-
-    //         }
-    //     })
-    //     .catch(error => console.error('Error', error));
-    // }
+});

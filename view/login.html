@@ -30,14 +30,14 @@
 </head>
 
 <body>
-
+        <form action="/upload" method="post" enctype="multipart/form-data">
     <div class="hero">
         <div>
             <div class="card">
-                <h1 class="username">username</h1>
-                <p class="email">email</p>
+                <h1 class="usernamelogin">username</h1>
+                <p class="email"></p>
                 <div class="boxprofile"> 
-                     <img src="user.png" id="imageProfile">
+                     <img src="user.png">
                      <label for="input-file" style="display: block;
                      width: 200px;
                      background: rgba(0, 0, 0, .5);
@@ -47,24 +47,16 @@
                      border-radius: 5px;
                      cursor: pointer;
                      ">choose image</label>
-                    <input type="file" accept="image/*" class="file" id="input-file" style="display: none;">
+                    <input type="file" accept="image/*" class="file" id="input-file" style="display: none;" name="image">
+                    <button type="submit" id="btnupload" style="background-color: transparent; border: none; color: white; cursor: pointer;">upload photo</button>
                 </div>
             </div>
         </div>
     </div>
 
+</form>
 
-
-        <script>
-
-
-            const imageprofile = document.getElementById("imageProfile");
-            const inputFile = document.getElementById("input-file")
-
-            inputFile.onchange = ()=>{
-            imageprofile.src = URL.createObjectURL(inputFile.files[0])
-          }
-        </script>
+    <script src="login.js"></script>
 
     <script src="main.js"></script>
     <!-- <script src="server.js"></script> -->

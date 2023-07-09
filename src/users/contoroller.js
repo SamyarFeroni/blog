@@ -1,22 +1,27 @@
+const { json } = require('body-parser');
 const client = require('../db')//call the server postgres
 const queryies = require('./queries')//call the queryies code for postgres function
-const bcrypt = require('bcrypt')//for password Hash
-const jwt = require('jsonwebtoken')
-const nodemailer = require('nodemailer')
+const bcrypt = require('bcrypt');//for password Hash
+const jwt = require('jsonwebtoken');
+const multer = require('multer');
+const path = require('path');
+
+// const nodemailer = require('nodemailer')
 //function CRUD for express and exports all of them to router.js and main.js
 
-const transporter = nodemailer.createTransport({
-    service: 'gmail',
-    auth: {
-        user: 'thismmdkabol@gmail.com',
-        pass: 'mmdkabol1234'
-    }
-});
+
+// const transporter = nodemailer.createTransport({
+//     service: 'gmail',
+//     auth: {
+//         user: 'thismmdkabol@gmail.com',
+//         pass: 'mmdkabol1234'
+//     }
+// });
 const secretkey = 'samyar1234'
 
 
 //function for read all users from database
-const getUsers = (req, res) => {
+const getUsers =  (req, res) => {
     client.query(queryies.getAllUsers, (error, resulte) => {
         if (error) throw error
         res.status(200).json(resulte.rows)
@@ -107,6 +112,10 @@ const loginUser = async (req, res) => {
         delete user.password
         const payload = { id: user.id, username: user.username }
         const token = await jwt.sign(payload, 'secret')
+        res.cookie('token', token,{maxage : 3600000, httpOnly: true})
+        // console.log(user, token)
+        // console.log(jwt.decode(token));
+        
         return res.json({ user, token })
 
     }
@@ -115,6 +124,44 @@ const loginUser = async (req, res) => {
         console.error(error)
     }
 }
+
+const uploadImage = (req,res) =>{
+   const file = req.file
+   console.log(file);
+    const token = req.header('Authorization')
+    const tokenWithoutBearer = token.replace('Bearer ', '');
+    console.log(tokenWithoutBearer);
+   if (!file) {
+    return res.status(400).send('No file received.');
+}
+ 
+   res.json({ message: 'File uploaded successfully.' });
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 // const RestPassword = async (req, res) => {
 //     try {
@@ -151,5 +198,6 @@ module.exports = {
     removeUser,
     updateUser,
     loginUser,
+    uploadImage,
     // RestPassword
 }

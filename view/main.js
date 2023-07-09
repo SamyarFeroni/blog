@@ -38,6 +38,9 @@
     // RestLink.addEventListener('click', () => {
     //     wrapaper.classList.add('activePass')
     // });
+    // loginRest.addEventListener('click', () => {
+    //     wrapaper.classList.remove('activePass')
+    // });
 
     registerLink.addEventListener('click', () => {
         wrapaper.classList.add('active')
@@ -53,22 +56,18 @@
 
     iconclose.addEventListener('click', () => {
         wrapaper.classList.remove('active-popup')
-    });    // loginRest.addEventListener('click', () => {
-    //     wrapaper.classList.remove('activePass')
-    // });
+    });
 
-
-
+    const usernameEl = document.querySelector('.usernamelogin')
+    // console.log(usernameEl)
     //function for login key and check username and password
     btnLogin.addEventListener('click', async (event) => {
-        
-        
         try {
             console.log('/*/*/*/*/*/')
             event.preventDefault();
             const username = inputuser.value;
             const password = inputpassword.value;
-            console.log(JSON.stringify({ username, password }))
+            // console.log(JSON.stringify({ username, password }))
             const response = await fetch("/login", {
                 method: "POST",
                 headers: {
@@ -78,9 +77,13 @@
             })
             const data = await response.json();
             console.log(data)
+            localStorage.setItem('token',data.token)
             if (data) {
                 window.location.href = "login.html";
-
+                // if(userdata){
+                //     const{username} = JSON.parse(userdata)
+                //     usernameEl.textContent = username
+                // }
                 // redirect
             }
             else{
@@ -89,6 +92,7 @@
         } catch (error) {
             console.log(error)
         }
+    
 
     });
 
@@ -138,11 +142,6 @@
         }
     })
 
-    // load window and get username and password in localStorage
-    // window.addEventListener('load', ()=>{
-    //         inputuser.value = localStorage.getItem('username')
-    //         inputpassword.value = localStorage.getItem('password')
-    // })
 
 
 
@@ -179,19 +178,3 @@
 // });
 
 
-
-
-window.addEventListener('DOMContentLoaded', () => {
-    const usernameElement = document.querySelector('.username');
-    const imageProfileElement = document.getElementById('imageProfile');
-  
-    const userData = localStorage.getItem('userData');
-    if (userData) {
-      const { username, profileImage } = JSON.parse(userData);
-
-      usernameElement.textContent = username;
-
-      imageProfileElement.src = profileImage;
-    }
-  });
-  
