@@ -1,22 +1,10 @@
-const { json } = require('body-parser');
 const client = require('../db')//call the server postgres
 const queryies = require('./queries')//call the queryies code for postgres function
 const bcrypt = require('bcrypt');//for password Hash
 const jwt = require('jsonwebtoken');
-const multer = require('multer');
-const path = require('path');
+// const path = require('path');
+const fs = require('fs')
 
-// const nodemailer = require('nodemailer')
-//function CRUD for express and exports all of them to router.js and main.js
-
-
-// const transporter = nodemailer.createTransport({
-//     service: 'gmail',
-//     auth: {
-//         user: 'thismmdkabol@gmail.com',
-//         pass: 'mmdkabol1234'
-//     }
-// });
 const secretkey = 'samyar1234'
 
 
@@ -125,70 +113,58 @@ const loginUser = async (req, res) => {
     }
 }
 
-const uploadImage = (req,res) =>{
-   const file = req.file
-   console.log(file);
-    const token = req.header('Authorization')
-    const tokenWithoutBearer = token.replace('Bearer ', '');
-    console.log(tokenWithoutBearer);
-   if (!file) {
-    return res.status(400).send('No file received.');
+const uploadImage = async (req,res) =>{
+        const tokenHeader = req.header('Authorization');
+        if (!tokenHeader || !tokenHeader.startsWith('Bearer ')) {
+          return res.status(200).json({ error: 'Unauthorized' });
+        }
+      
+        const token = tokenHeader.replace('Bearer ', '');
+        const file = req.file;
+        console.log(file);
+        console.log(token);
+        console.log(await jwt.decode(token));
+
+
+        const usertok = await jwt.decode(token)
+        const imagepath = req.file.filename
+        // const fileData = fs.readFileSync(imagepath)
+        // const byteaData = Buffer.from(fileData).toString('hex')
+
+        client.query(queryies.profileImage , [imagepath, usertok.id ], (error, resulte)=>{
+            if(error) {
+                console.log(error);
+                res.status(500).json({massage: "faild to upload imagepath to server"})
+            }else{
+                res.status(200).json({massage:"Image path uploaded successfully "})
+            }
+        })
+        console.log(usertok.id);
+
+      
 }
- 
-   res.json({ message: 'File uploaded successfully.' });
+const showprofile = async(req,res)=>{
+    const tokenHeader = req.header('Authorization');
+    if (!tokenHeader || !tokenHeader.startsWith('Bearer ')) {
+        return res.status(200).json({ error: 'Unauthorized' });
+      }
+      const token = tokenHeader.replace('Bearer ', '');
+      const usertok = await jwt.decode(token)
+      const userID = usertok.id
+      try{
+        const resulte = await client.query(queryies.showProfileImage , [userID])
+        if(resulte.rows.length === 0 || !resulte.rows[0].profile_image){
+            return res.status(404).json({massage: 'Profile image not found.'})
+        }
+        const profileImagePath = resulte.rows[0].profile_image
+        res.sendFile(profileImagePath)
+    
+      } catch (error){
+        console.error(error);
+        res.status(500).json({message: 'Failed to retrieve profile image.'})
+      }
+
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// const RestPassword = async (req, res) => {
-//     try {
-//         const usernaeme = await client.query(queryies.loginUser, [req.body.username]);
-
-//         if (usernaeme.rowCount === 0) {
-//             res.status(401).json({ success: false })
-//         } else {
-//             res.status(200).json({ success: true })
-//             const email = await client.query(queryies.RestPasswordByemail, req.body.username)
-//             const mailOption = {
-//                 from: "thismmdkabol@gmail.com",
-//                 to: email,
-//                 subject: "Hello this one is check test for code",
-//                 text: "This is the secret code 12092"
-//             }
-//             transporter.sendMail(mailOption, (error, info) => {
-//                 if (error) throw error
-//                 console.log(`Email sent: ` + info.response);
-//             })
-
-//         }
-//     }
-//     catch {
-
-//     }
-// }
 
 //export all of them
 module.exports = {
@@ -199,5 +175,7 @@ module.exports = {
     updateUser,
     loginUser,
     uploadImage,
+    showprofile,
+    
     // RestPassword
 }

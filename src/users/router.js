@@ -11,7 +11,9 @@ const storage = multer.diskStorage({
     }, 
     filename:(req,file, cb) =>{
         // console.log(file);
-        cb(null, Date.now() + path.extname(file.originalname) )
+        // cb(null, Date.now() + path.extname(file.originalname) )
+        const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1e9);
+        cb(null, uniqueSuffix + '-' + file.originalname); 
     }
 })
 const upload = multer({storage: storage})
@@ -26,6 +28,7 @@ router.post("/register", contoroller.addUser);
 router.delete("/:id", contoroller.removeUser);
 router.post("/login",contoroller.loginUser);
 router.post("/upload",upload.single("image") ,contoroller.uploadImage)
+router.get("/profile" , contoroller.showprofile)
 
 module.exports = router
 

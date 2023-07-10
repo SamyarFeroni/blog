@@ -7,7 +7,8 @@ const addusers = "INSERT INTO public.users (first_name, last_name, username, pas
 const removeUser = "DELETE FROM public.users WHERE username = $1";
 const updateUser = "UPDATE public.users SET username =$1"
 const loginUser = "SELECT * FROM users WHERE username = $1";
-const profileImage = "UPDATE users SET prifile_image = "
+const profileImage = "UPDATE users SET profile_image = $1   WHERE id = $2 "
+const showProfileImage = "SELECT profile_image FROM users id = $1"
 module.exports = {
     getAllUsers,
     getusersByusername,
@@ -18,5 +19,5 @@ module.exports = {
     updateUser,
     loginUser, 
     profileImage,
-
+    showProfileImage,
 }
